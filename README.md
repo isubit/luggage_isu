@@ -57,7 +57,7 @@ git commit -m "picking up luggage"
 git push origin master
 # Set up a fresh Drupal. If you don't have $DBCREDS defined substitute your
 # database username and password in the following command, e.g., root:root
-drush si minimal -y --db-url=mysql://$DBCREDS@localhost/myproject --site-name=myproject --account-name=isuitc install_configure_form.update_status_module='array(FALSE,FALSE)'
+drush si minimal -y --db-url=mysql://YOUR-DB-NAME:YOUR-DB-PASSWORD@localhost/SITEDIRECTORY --site-name=SITENAME --account-name=YOURNAME --account-pass=YOURPASSWORD install_configure_form.update_status_module='array(FALSE,FALSE)'
 # Enable luggage Drupal modules
 drush en -y luggage_piwik luggage_pubcookie luggage_vars luggage_seo luggage_core luggage_contrib luggage_roles luggage_ckeditor luggage_ui luggage_solr luggage_news luggage_announcements luggage_people suitcase_config
 # Reset features to their original configuration settings
