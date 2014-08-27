@@ -16,6 +16,12 @@ git:
   submodules: false
 
 env: DBCREDS=root
+
+# whitelist
+branches:
+  only:
+    - master
+    - release
   
 before_script:
   # Use sed to replace the SSH URL with the public URL, then initialize
