@@ -70,7 +70,7 @@ Read/Search [Luggage Ducumentation][]
 Join us on IRC FreeNode @ #luggage
 * Need help setting up IRC? https://www.drupal.org/irc/setting-up
 
-Travis-CI - https://travis-ci.org/isubit/luggage
+Travis-CI - https://travis-ci.org/isubit/luggage_isu
 * Reports into IRC FreeNode @  ##luggage
 
 
