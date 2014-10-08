@@ -56,4 +56,3 @@ notifications:
       - "irc.freenode.org##luggage"
     on_success: never
     on_failure: always
- 
