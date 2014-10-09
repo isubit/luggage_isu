@@ -59,7 +59,7 @@ before_script:
 #   - drush vset --yes simpletest_verbose FALSE
 
 script:
-  - bash scripts/build_luggage.sh
+  - bash scripts/build_luggage_isu.sh
   # - drush test-run 'luggage' --debug --uri=http://127.0.0.1:8080
   
 after_script:
