@@ -1,5 +1,6 @@
+#luggage_isu config
 language: php
- 
+
 # list any PHP version you want to test against
 php:
   - 5.3
@@ -59,7 +60,7 @@ before_script:
 #   - drush vset --yes simpletest_verbose FALSE
 
 script:
-  - bash scripts/build_luggage.sh
+  - bash scripts/build_luggage_isu.sh
   # - drush test-run 'luggage' --debug --uri=http://127.0.0.1:8080
   
 after_script:
@@ -75,3 +76,4 @@ notifications:
       - "irc.freenode.org##luggage"
     on_success: never
     on_failure: always
+ 
