@@ -21,5 +21,6 @@ install_luggage_isu_suitcase() {
 
 install_luggage_isu_features() {
   # Install luggage_isu features
-  drush -v $ALIAS en -y luggage_pubcookie luggage_people_isu suitcase_config
+  drush -v $ALIAS en -y luggage_pubcookie luggage_people_isu
+  drush en -y suitcase_config
 }
