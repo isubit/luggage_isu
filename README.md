@@ -1,6 +1,6 @@
-Luggage
+Luggage_ISU
 =========
-[![Build Status](https://travis-ci.org/isubit/luggage.svg?branch=master "Build Status")](http://travis-ci.org/isubit/luggage)
+[![Build Status](https://travis-ci.org/isubit/luggage_isu.svg?branch=master "Build Status")](http://travis-ci.org/isubit/luggage_isu)
 
 Luggage is a Drupal 7.x platform for building/maintaining academic websites.
 
@@ -17,14 +17,14 @@ Luggage is a managed stable release of Drupal 7.x coupled with several features 
 
 Is Luggage Right For You?
 -------------------------
-An Iowa State University flavor of Luggage, [Luggage ISU][] is available for those intending to build and deploy at ISU.
+This is an Iowa State University flavor of [Luggage](https://github.com/isubit/luggage). Perfect for those intending to build and deploy at ISU.
 
 If this is not you, then Luggage is right for you!
 
 Version
 ----
 
-Branch 2.x.x currently `development`
+2.x.x is currently `development`
 
 Technology
 -----------
@@ -37,23 +37,22 @@ Luggage uses a number of open source projects to work properly:
 * [Flexslider2][] - The best responsive slider. Period.
 * [Apache Solr][] - search platform.
 * [Piwik][] - web analytics platform
+* [Pubcookie][] - intra-institutional web authentication
 
 Installation
 --------------
 
-Below is the brief run-down on how to install Luggage. The full installation documentation can be found [here](http://www.biology-it.iastate.edu/luggage_doc/installing-luggage-scratch#).
+Below is the brief run-down on how to install Luggage_isu. The full installation documentation can be found [here](http://www.biology-it.iastate.edu/luggage_doc/installing-luggage-scratch#).
 
 #####Assumptions:
 * Drush is installed
 * Git is installed
 
-Clone this repos latest release into the root directory that your web server points to.
-Releases: https://github.com/isubit/luggage/releases
-
+Clone this repo into the root directory that your web server points to.
 
 Run the build script found within the *scripts* directory:
 ```
-source ./scripts/build_luggage.sh
+source ./scripts/build_luggage_isu.sh
 ```
 
 The last line of output from the script, if successful, will be a root user one-time login link. Copy and append everything from "/user" and on, to the end of the luggage installation url in a web browser of your choice. Typically, the final link will look something like this:
@@ -72,13 +71,15 @@ Refer to the [contribution documentation](http://www.biology-it.iastate.edu/lugg
 
 Troubleshooting
 ----
+
 Read/Search [Luggage Ducumentation][]
 
 Join us on IRC FreeNode @ #luggage
 * Need help setting up IRC? https://www.drupal.org/irc/setting-up
 
-Travis-CI - https://travis-ci.org/isubit/luggage
+Travis-CI - https://travis-ci.org/isubit/luggage_isu
 * Reports into IRC FreeNode @  ##luggage
+
 
 License
 ----
@@ -99,4 +100,3 @@ License
 [Travis]:https://travis-ci.org/isubit/luggage.svg?branch=master
 [Luggage ISU]:https://github.com/isubit/luggage_isu
 [Luggage Ducumentation]:http://www.biology-it.iastate.edu/luggage_doc/
-
