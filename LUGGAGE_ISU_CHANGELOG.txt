@@ -3,3 +3,4 @@ Drupal 7.32, 2014-10-15
 --------------------------
 - LUGG-225 - fixed - "Pubcookie User Admin" role should have “Administer pub cookie future roles"
 - LUGG-172 - fixed - Suitcase collapsible menu button should not show up if there are no menu items
+- LUGG-117 - fixed - Need visual differentiation for news titles
