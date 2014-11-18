@@ -1,0 +1,192 @@
+<?php
+
+/**
+ * @file
+ * Restricts logins to a list of usernames.
+ */
+
+/**
+ * Implementation of hook_menu().
+ */
+function isushibsiteaccess_menu() {
+  $items['admin/config/people/isushibsiteaccess'] = array(
+    'title' => 'Change who may access this site',
+    'description' => 'Edit the list of users who may access the site.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('isushibsiteaccess_settings'),
+    'access arguments' => array('administer shibboleth site access'),
+    'file' => 'isushibsiteaccess.admin.inc',
+  );
+  $items['admin/config/people/isushibsiteaccess/who'] = array(
+    'title' => 'Settings',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+  );
+  $items['admin/config/people/isushibsiteaccess/config'] = array(
+    'title' => 'Assignable Roles',
+    'description' => 'Change what appears on the Who Can Access This Site form',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('isushibsiteaccess_form_configuration'),
+    'access arguments' => array('administer permissions'),
+    'file' => 'isushibsiteaccess.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 10,
+  );
+  $items['admin/config/people/isushibsiteaccess/edit'] = array(
+    'title' => 'Edit future user roles',
+    'description' => 'Change roles that will be assigned to a given future user',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('isushibsiteaccess_edit_future_user', 5),
+    'access arguments' => array('administer shibboleth future roles'),
+    'type' => MENU_CALLBACK,
+    'file' => 'isushibsiteaccess.admin.inc',
+  );
+  $items['admin/config/people/isushibsiteaccess/delete'] = array(
+    'description' => 'Delete a given future user',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('isushibsiteaccess_user_delete_confirm', 5),
+    'access arguments' => array('administer shibboleth site access'),
+    'type' => MENU_CALLBACK,
+    'file' => 'isushibsiteaccess.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function isushibsiteaccess_permission() {
+  return array(
+    'administer shibboleth site access' =>  array(
+      'title' => t('Administer shibboleth site access'),
+      'description' => t('Change which shibboleth-authenticated users have access to this site.'),
+      'restrict access' => TRUE,
+    ),
+    'administer shibboleth future roles' =>  array(
+      'title' => t('Administer shibboleth future roles'),
+      'description' => t('Assign roles to shibboleth-authenticated users who will log in in the future.'),
+      'restrict access' => TRUE,
+    ),
+  );
+}
+
+
+/**
+ * Implements hook_shibboleth_post_register().
+ * 
+ * Called after shibboleth has created Drupal user.
+ */
+function isushibsiteaccess_shibboleth_post_register($variables) {
+  $name = $variables['shibboleth_user'];
+  $fuid = isushibsiteaccess_get_fuid($name);
+  
+  // Roles have now been assigned to user.
+  // User is no longer a future user so future role info can be deleted.
+  db_delete('isushibsiteaccess_roles')
+    ->condition('fuid', $fuid)
+    ->execute();  
+}
+
+/**
+ * Is a given user on the whitelist?
+ *
+ * @param  string $name
+ * @return boolean
+ */
+function isushibsiteaccess_is_allowed($name) {
+  $fuid = isushibsiteaccess_get_fuid($name);
+  return $fuid ? TRUE : FALSE;
+}
+
+/**
+ * Get roles for a future user given username.
+ *
+ * @param string $name
+ * @return array of rid => role name pairs
+ */
+function isushibsiteaccess_get_preassigned_roles_for_user($name) {
+  if (!variable_get('shibboleth_id_is_email', 1)) {
+    watchdog('isushibsiteaccess', 'shibboleth_id_is_email must be checked on shibboleth configuration page for isushibsiteaccess role assignment to future users to work');
+    return;
+  }
+  
+  $fuid = isushibsiteaccess_get_fuid($name);
+  $assigned_roles = isushibsiteaccess_assigned_roles($fuid);
+  return $assigned_roles; 
+}
+
+/**
+ * Get roles for a future user given future user ID.
+ *
+ * @param integer fuid
+ * @return array of rid => role name pairs
+ */
+function isushibsiteaccess_assigned_roles($fuid) {
+  $available_roles = isushibsiteaccess_available_roles();
+  $assigned_roles = array();
+  // Find existing assigned roles.
+  $query = db_select('isushibsiteaccess_roles', 'pr');
+  $query->fields('pr', array('fuid', 'rid'));
+  $query->condition('fuid', $fuid);
+  $result = $query->execute();
+    
+  $default_values = array();
+  foreach ($result as $row) {
+    $assigned_roles[$row->rid] = $available_roles[$row->rid];
+  }
+
+  return $assigned_roles;
+}
+
+/**
+ * Return the subset of Drupal roles that are available for
+ * assignment to future users.
+ *
+ * @return array of rid => role name pairs
+ */
+function isushibsiteaccess_available_roles() {
+  $available_roles = array();
+  $assignable_roles = variable_get('isushibsiteaccess_assignable_roles', array());
+  // Get list of roles, excluding anonymous user role.
+  $roles = array_map('check_plain', user_roles(TRUE));
+  foreach ($assignable_roles as $rid => $status) {
+    if ($status) {
+      $available_roles[$rid] = $roles[$rid];
+    }
+  }
+  // Exclude authenticated, since any user will get it.
+  unset($available_roles[DRUPAL_AUTHENTICATED_RID]);
+  return $available_roles;
+}
+
+/**
+ * Get future user ID for a username.
+ *
+ * @param string $name
+ * @return integer 
+ */
+function isushibsiteaccess_get_fuid($name) {
+    $query = db_select('isushibsiteaccess_users', 'pu')
+    ->fields('pu', array('fuid', 'name'))
+    ->condition('name', $name);
+  $result = $query->execute();
+  $fuid = $result->fetchField(0);
+
+  return $fuid;
+}
+
+/**
+ * Get future user name for a future user ID.
+ *
+ * @param int $fuid
+ * @return string
+ */
+function isushibsiteaccess_get_name($fuid) {
+  $query = db_select('isushibsiteaccess_users', 'pu')
+    ->fields('pu', array('fuid', 'name'))
+    ->condition('fuid', $fuid);
+  $result = $query->execute();
+  $name = $result->fetchField(1);
+  
+  return $name;
+}

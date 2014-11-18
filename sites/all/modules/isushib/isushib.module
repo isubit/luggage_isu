@@ -1,0 +1,350 @@
+<?php
+
+/**
+ * @file
+ * Integrates shibboleth login system with Drupal.
+ */
+
+// Do you want the post-shibboleth-server-visit $_SERVER vars dumped to the screen
+// (useful for getting the isushib.module set up for the first time)?
+define('ISUSHIB_DEBUG_MODE', 0);
+
+// Enable for lots of watchdog messages showing what's going on.
+define('ISUSHIB_VERBOSE_LOGGING', 1);
+
+/**
+ * Implementation of hook_menu().
+ */
+function isushib_menu() {
+  $items['login'] = array(
+    'page callback' => 'isushib_login_redirect',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+  $items['shibboleth/pc'] = array(
+    'title' => 'Shibboleth login',
+    'page callback' => 'isushib_page',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK
+  );
+  $items['admin/config/people/isushib'] = array(
+    'title' => 'Shibboleth',
+    'description' => 'Configure settings for Shibboleth authentication.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('isushib_settings'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'isushib.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Redirect user from https://example.edu/login to the location of the
+ * /Shibboleth.sso Apache handler, and include a redirection target
+ * that will land the client on the Drupal path shibboleth/pc after
+ * authentication.
+ */
+function isushib_login_redirect() {
+  drupal_goto(isushib_login_link());
+}
+
+/**
+ * Handle a client who has just been redirected to a shibboleth service
+ * provider, authenticated, and returned.
+ */
+function isushib_page() {
+   global $secure_base_url;
+   global $user;
+   global $_shibboleth_user;
+
+  // User is already logged into Drupal but revisited the login page.
+  // Move them along; we have nothing to do.
+  if ($user->uid) {
+    drupal_goto(variable_get('isushib_success_url', $secure_base_url));
+  }
+
+  if (ISUSHIB_DEBUG_MODE) {
+    print '<pre>';
+    print_r($_SERVER);
+    print '</pre>';
+  }
+
+  // The following should never happen because shibboleth/.htaccess
+  // contains ShibRedirectToSSL 443
+  if ($_SERVER['HTTPS'] != 'on') {
+    watchdog('shibboleth', 'Shibboleth request received over non-secure protocol. Aborting.', array(), WATCHDOG_WARNING);
+    drupal_set_message(t('Shibboleth login failed.'), 'error');
+    drupal_goto();
+  }
+
+  if (!isset($_SERVER['REDIRECT_uid'])) {
+    watchdog('shibboleth', 'Shibboleth request received but REDIRECT_uid not set. Aborting.', array(), WATCHDOG_WARNING);
+    drupal_set_message(t('Shibboleth login failed.'), 'error');
+    drupal_goto();
+  }
+
+  $_shibboleth_user = check_plain($_SERVER['REDIRECT_uid']);
+  
+  watchdog('shibboleth', 'Received login request from %user', array('%user' => $_shibboleth_user));
+  
+  if (ISUSHIB_VERBOSE_LOGGING) {
+    watchdog('shibboleth', 'Session ID is %sessid', array('%sessid' => check_plain(session_id())));
+  }
+
+  if (module_exists('isushibsiteaccess')) {
+    $allowed = isushibsiteaccess_is_allowed($_shibboleth_user);
+    if (!$allowed) {
+      watchdog('shibboleth', '%user not in allowed usernames list', array('%user' => $_shibboleth_user));
+      $account = user_load_by_name($_shibboleth_user);
+      if (is_array($account) && isset($account->uid) && $account->uid == 1) {
+        watchdog('shibboleth', '%user is superuser. Allowing access.', array('%user' => $_shibboleth_user));      
+      }
+      else {
+        watchdog('shibboleth', '%user is not superuser. Denying access.', array('%user' => $_shibboleth_user));
+        drupal_access_denied();
+        drupal_exit();
+      }
+    }
+  }
+
+  $account = user_external_load($_shibboleth_user);
+  if (!$account) {
+    // No record of this user yet in Drupal but user has
+    // authenticated with shibboleth. Create new Drupal user.
+    user_external_login_register($_shibboleth_user, 'shibboleth');
+    $record = isushib_ldap_record($_shibboleth_user);
+
+    // Unfortunately there is not a clean way to hook into
+    // external user authentication outside of a transaction
+    // without doing hacky form_alters so we are relegated to
+    // invoking our own hook. Technically this should be
+    // isushib_post_register but, hey.
+    module_invoke_all('shibboleth_post_register', $record);
+  }
+  else {
+    $form_state['uid'] = $account->uid;
+    user_login_submit(array(), $form_state);
+  }
+
+  if ($user->uid && $user->uid != 1) {
+    // Login successful.
+    if (ISUSHIB_VERBOSE_LOGGING) {
+      watchdog('shibboleth', "Shibboleth login successful for %name (%uid)", array('%name' => $user->name, '%uid' => $user->uid));
+    }
+    $url = variable_get('isushib_success_url', $secure_base_url);
+    drupal_goto($url);
+  }
+
+  drupal_set_message(t('Shibboleth login failed.'), 'error');
+  drupal_goto();
+}
+
+/**
+ * Implements hook_user_presave().
+ *
+ * user_save() requires that mail key be set.
+ */
+function isushib_user_presave(&$edit, $account, $category) {
+  global $_shibboleth_user;
+  // Set the mail column of the user table (which is typically blank for users with external auth) only if
+  // shibboleth_user@shibboleth_domain is also an email address.
+  if ($account->is_new && isset($_shibboleth_user)) {
+    $edit['mail'] = "$_shibboleth_user@iastate.edu";
+    if (module_exists('isushibsiteaccess')) {
+      // Give user preassigned roles, if any.
+      $roles = isushibsiteaccess_get_preassigned_roles_for_user($_shibboleth_user);
+      foreach ($roles as $rid => $role) {
+        $edit['roles'][$rid] = $role;
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_entity_presave().
+ *
+ * Potentially prepopulate data from LDAP.
+ */
+function isushib_entity_presave($entity, $type) {
+  global $_shibboleth_user;
+  
+  if ($type == 'user' && isset($entity->is_new) && $entity->is_new && $_shibboleth_user) {
+    // Return if LDAP is not enabled.
+    if (variable_get('shibboleth_ldap_server', '') == '') {
+      return;
+    }
+    
+    // Retrieve LDAP record for this user.
+    $records = shibboleth_ldap_search($_shibboleth_user);
+    $ldap_record = $records[0];
+    
+    // Possibly use a field value from LDAP for the username.
+    $ldap_usernamefield = variable_get('shibboleth_ldap_usernamefield', '');
+    if ($ldap_usernamefield && isset($ldap_record[$ldap_usernamefield])) {
+      if ($ldap_record[$ldap_usernamefield]) {
+        $entity->name = $ldap_record[$ldap_usernamefield];
+      }
+    }
+  
+    // Add LDAP information. For example, if there is a Drupal field
+    // called field_displayname and an LDAP field called displayname
+    // then put the value from LDAP into $user->displayname.
+    $instances = field_info_instances('user', 'user');
+    foreach ($instances as $field) {
+      $fieldname = $field['field_name'];
+      if (drupal_substr($fieldname, 0, 6) == 'field_') {
+        $fieldname = drupal_substr($fieldname, 6);
+      }
+      $field_language = field_language('user', 'user', $field['field_name']);
+      if (isset($ldap_record[$fieldname])) {
+        $entity->$field['field_name'] = array(
+          $field_language => array(
+            0 => array(
+              'value' => $ldap_record[$fieldname],
+            )
+          )
+        );
+        if (ISUSHIB_VERBOSE_LOGGING) {
+          watchdog('shibboleth', 'Set %field to %value', array('%field' => $fieldname, '%value' => $ldap_record[$fieldname]));  
+        }
+      }
+    }
+  }
+}
+
+/*
+ * Implements hook_block_info().
+ *
+ * Display the shibboleth "Log in" link.
+ */
+function isushib_block_info() {
+  $blocks['shibboleth_login'] = array(
+    'info' => t('Shibboleth Login'),
+  );
+  return $blocks;
+}
+
+function isushib_block_view($delta) {
+  switch ($delta) {
+    case 'shibboleth_login':
+      global $user;
+
+      $block = array();
+      if (user_is_anonymous()) {
+        $block['subject'] = '';
+        $block['content'] = theme('isushib_login');
+      }
+      return $block;
+  }
+}
+
+/**
+ * Implementation of hook_theme().
+ */
+function isushib_theme() {
+  return array(
+    'shibboleth_login' => array(
+      'arguments' => array(),
+    ),
+  );
+}
+
+/**
+ * Theme function for shibboleth login link.
+ */
+function theme_isushib_login() {
+  if (variable_get('isushib_success_url', '')) {
+    return l(t('Log in'), shibboleth_login_link());
+  }
+  else {
+    return l(t('Log in'), shibboleth_login_link(), array('query' => array('destination' => drupal_get_path_alias(current_path()))));
+  }
+}
+
+/*
+ *  The link must be to a nonexistent file in a directory containing an .htaccess
+ *  file with proper shibboleth directives. The file must not exist so it can
+ *  "fall through" Apache to Drupal's menu system and be directed to the
+ *  shibboleth_page() function. By default we look for a nonexistent file named pc.
+ */
+function isushib_login_link() {
+  global $base_secure_url;
+  
+  $options = array(
+    'https' => TRUE,
+    'query' => array('target' => $base_secure_url . variable_get('shibboleth_login_dir', '/shibboleth') . '/pc'),
+  );
+  $url = url($base_secure_url . '/Shibboleth.sso/Login', $options);
+  return $url;
+  return 'https://pardosa.ent.iastate.edu/Shibboleth.sso/Login?target=https://pardosa.ent.iastate.edu/shibboleth/pc';
+  return variable_get('shibboleth_login_dir', 'shibboleth') . '/pc?';
+}
+
+function isushib_ldap_record($netid) {
+  // https://handbook.it.iastate.edu/ch27s02.html#Web_Publishing-Shibboleth-Attributes
+  $attributes = array(
+    'uid',
+    'mail',
+    'userClass',
+    'description',
+    'ou',
+    'title',
+    'cn',
+    'displayName',
+    'givenName',
+    'sn',
+    'telephoneNumber',
+    'facsimileTelephoneNumber',
+    'street',
+    'l',
+    'st',
+    'postalCode',
+    'postalAddress',
+    'postOfficeBox',
+    'homePhone',
+    'homePostalAddress',
+    'eduPersonPrincipalName',
+    'eduPersonAffiliation',
+    'eduPersonPrimaryAffiliation',
+    'eduPersonOrgDN',
+    'eduPersonOrgUnitDN',
+    'eduPersonNickname',
+    'isuPersonMiddleInitial',
+    'isuPersonMiddleName',
+    'isuPersonPersistentID',
+    'isuPersonStatus',
+    'isuPersonEmploymentStatus',
+    'isuPersonRegistrationStatus',
+    'isuPersonSponsorsNetID',
+    'isuPersonDeptNum',
+    'isuPersonDeptAbrvn',
+    'isuPersonDeptShortname',
+    'isuPersonDeptName',
+    'isuPersonAdministrativeUnit',
+    'isuPersonCollege',
+    'isuPersonCollege2',
+    'isuPersonCollegeAbbrev',
+    'isuPersonCollegeAbbrev2',
+    'isuPersonMajor',
+    'isuPersonMajor2',
+    'isuPersonStudentMajor',
+    'isuPersonUidNumber',
+    'isuPersonGidNumber',
+    'isuPersonLoginShell',
+    'isuPersonHomeDirectory',
+    'isuPersonMacosxPath',
+    'isuPersonMacosxLabPath',
+    'isuPersonEngrHomeDirectory',
+    'isuPersonVpnIp',
+    'isuPersonVpnNetmask'
+  );
+  $record['shibboleth_user'] = $netid;
+  foreach ($attributes as $k) {
+    $server_attribute = 'REDIRECT_' . $k;
+    if (isset($_SERVER[$server_attribute])) {
+      $record[$k] = $_SERVER[$server_attribute];
+    }
+  }
+  return $record;
+}
