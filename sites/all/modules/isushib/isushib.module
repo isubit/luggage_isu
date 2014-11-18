@@ -36,6 +36,7 @@ function isushib_menu() {
     'file' => 'isushib.admin.inc',
   );
 
+
   return $items;
 }
 
@@ -170,23 +171,10 @@ function isushib_entity_presave($entity, $type) {
   global $_shibboleth_user;
   
   if ($type == 'user' && isset($entity->is_new) && $entity->is_new && $_shibboleth_user) {
-    // Return if LDAP is not enabled.
-    if (variable_get('shibboleth_ldap_server', '') == '') {
-      return;
-    }
     
     // Retrieve LDAP record for this user.
-    $records = shibboleth_ldap_search($_shibboleth_user);
-    $ldap_record = $records[0];
-    
-    // Possibly use a field value from LDAP for the username.
-    $ldap_usernamefield = variable_get('shibboleth_ldap_usernamefield', '');
-    if ($ldap_usernamefield && isset($ldap_record[$ldap_usernamefield])) {
-      if ($ldap_record[$ldap_usernamefield]) {
-        $entity->name = $ldap_record[$ldap_usernamefield];
-      }
-    }
-  
+    $record = isushib_ldap_record($_shibboleth_user);
+      
     // Add LDAP information. For example, if there is a Drupal field
     // called field_displayname and an LDAP field called displayname
     // then put the value from LDAP into $user->displayname.
@@ -201,7 +189,7 @@ function isushib_entity_presave($entity, $type) {
         $entity->$field['field_name'] = array(
           $field_language => array(
             0 => array(
-              'value' => $ldap_record[$fieldname],
+              'value' => $record[$fieldname],
             )
           )
         );
@@ -270,15 +258,14 @@ function theme_isushib_login() {
  */
 function isushib_login_link() {
   global $base_secure_url;
+  global $base_root;
   
   $options = array(
     'https' => TRUE,
-    'query' => array('target' => $base_secure_url . variable_get('shibboleth_login_dir', '/shibboleth') . '/pc'),
+    'query' => array('target' => $base_secure_url . variable_get('isushib_login_dir', '/shibboleth') . '/pc'),
   );
-  $url = url($base_secure_url . '/Shibboleth.sso/Login', $options);
+  $url = url($base_root . '/Shibboleth.sso/Login', $options);
   return $url;
-  return 'https://pardosa.ent.iastate.edu/Shibboleth.sso/Login?target=https://pardosa.ent.iastate.edu/shibboleth/pc';
-  return variable_get('shibboleth_login_dir', 'shibboleth') . '/pc?';
 }
 
 function isushib_ldap_record($netid) {
