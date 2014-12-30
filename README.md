@@ -24,7 +24,13 @@ If this is not you, then Luggage is right for you!
 Version
 ----
 
-2.x.x is currently `development`
+Stable
+
+- 2.x.x is currently `master`
+
+Development
+
+- 2.x.x is currently `development`
 
 Technology
 -----------
@@ -36,7 +42,6 @@ Luggage uses a number of open source projects to work properly:
 * [Ckeditor][] - HTML text editor designed to simplify web content creation
 * [Flexslider2][] - The best responsive slider. Period.
 * [Apache Solr][] - search platform.
-* [Piwik][] - web analytics platform
 * [Pubcookie][] - intra-institutional web authentication
 
 Installation
@@ -57,7 +62,7 @@ source ./scripts/build_luggage_isu.sh
 
 The last line of output from the script, if successful, will be a root user one-time login link. Copy and append everything from "/user" and on, to the end of the luggage installation url in a web browser of your choice. Typically, the final link will look something like this:
 ``` 
-http://localhost/luggage/user/reset/1/1409061179/KjbHsr6O7FRaz-__WShbgWuPwKHKrXHy6QGV_AQu02E/login
+http://localhost/luggage_isu/user/reset/1/1409061179/KjbHsr6O7FRaz-__WShbgWuPwKHKrXHy6QGV_AQu02E/login
 ```
 
 You are now logged in as the root user, allowing you to develop using the power of Luggage! Enjoy!
@@ -94,7 +99,6 @@ License
 [Ckeditor]:http://ckeditor.com/
 [Flexslider2]:http://flexslider.woothemes.com/
 [Apache Solr]:http://lucene.apache.org/solr/
-[Piwik]:http://piwik.org/
 [Pubcookie]:http://www.pubcookie.org/
 [GPLv2]:http://www.gnu.org/licenses/gpl-2.0.html
 [Travis]:https://travis-ci.org/isubit/luggage.svg?branch=master
