@@ -1,5 +1,5 @@
 Luggage 2.5.0-2.1, 2014-12-30
-Drupal 7.32, 2014-10-15
+Drupal 7.34, 2014-10-15
 --------------------------
 - LUGG-124 - fixed - Link to Exchange is changing
 - LUGG-186 - fixed - Long names with hyphens aren't able to wrap
