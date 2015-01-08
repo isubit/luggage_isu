@@ -1,8 +1,26 @@
+Luggage 2.5.0-2.1, 2014-12-30
+Drupal 7.34, 2014-11-19
+--------------------------
+- LUGG-124 - fixed - Link to Exchange is changing
+- LUGG-186 - fixed - Long names with hyphens aren't able to wrap
+- LUGG-239/suitcase #8 - fixed - Universal block styling that works for programmatic blocks and views blocks across the suitcase theme. - https://github.com/isubit/suitcase/issues/8
+- LUGG-259/suitcase #6 - fixed - Slider styling needs fixed for default themes - https://github.com/isubit/suitcase/issues/6
+- LUGG-276 - fixed - <sub> and <sup> formatting being stripped out in suitcase css
+
+Luggage 2.4.2-2.0, 2014-11-27
+Drupal 7.34, 2014-11-19
+--------------------------
+Hot fixed Drupal
+
+Luggage 2.4.1-2.0, 2014-11-09
+Drupal 7.33, 2014-11-07
+--------------------------
+Hot fixed Drupal
+
 Luggage 2.4.0-2.0, 2014-10-31
 Drupal 7.32, 2014-10-15
 --------------------------
-- LUGG-124 - fixed - Link to Exchange is changing
-- LUGG-177 - fixed - Need visual differentiation for news titles
+- LUGG-117 - fixed - Need visual differentiation for news titles
 - LUGG-172 - fixed - Suitcase collapsible menu button should not show up if there are no menu items
 - LUGG-221 - fixed - Book module block 'Book Navigation' styling needs work
 - LUGG-225 - fixed - "Pubcookie User Admin" role should have “Administer pub cookie future roles"
