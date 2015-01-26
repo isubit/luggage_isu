@@ -23,5 +23,5 @@ install_luggage_isu_features() {
   # Install luggage_isu features
   drush -v $ALIAS en -y luggage_people_isu
   drush -v $ALIAS en -y suitcase_config
-  drush -v $ALIAS en -y isushib
+  drush -v $ALIAS en -y isushib isushibsiteaccess
 }
