@@ -265,7 +265,11 @@ function isushib_login_link() {
     'query' => array('target' => $base_secure_url . variable_get('isushib_login_dir', '/shibboleth') . '/pc'),
   );
   $url = url($base_root . '/Shibboleth.sso/Login', $options);
-  return $url;
+
+  // url() does not respect https option unless variable_get('https', FALSE)
+  // is TRUE, so ensure that link to Shibboleth is an https link. 
+  $secure_url = str_replace('http://', 'https://', $url);
+  return $secure_url;
 }
 
 function isushib_ldap_record($netid) {
