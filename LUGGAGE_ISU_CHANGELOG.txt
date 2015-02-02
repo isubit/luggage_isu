@@ -1,3 +1,10 @@
+Luggage 3.0.0-3.0, 2015-1-13
+Drupal 7.34, 2014-11-19
+--------------------------
+- LUGG-272 - fixed - Shibboleth feature
+- Altered scripts/libs/luggage_isu.sh to remove Pubcookie and include Shibboleth
+- LUGG-319 - fixed - remove pubcookie
+
 Luggage 2.5.0-2.1, 2014-12-30
 Drupal 7.34, 2014-11-19
 --------------------------

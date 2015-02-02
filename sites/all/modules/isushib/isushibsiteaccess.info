@@ -1,0 +1,12 @@
+name = Shibboleth Site Access
+description = Restricts logins to a list of usernames.
+package = External authentication
+dependencies[] = isushib
+core = 7.x
+configure = admin/config/people/isushibsiteaccess
+
+; Information added by drupal.org packaging script on 2012-05-18
+version = "7.x-1.0"
+core = "7.x"
+project = "isushib"
+datestamp = "1337360188"
