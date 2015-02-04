@@ -1,3 +1,11 @@
+Luggage 3.1.0-3.1, 2015-2-2
+Drupal 7.34, 2014-11-19
+--------------------------
+- LUGG-279/suitcase #16 - fixed - News items should have dates. Friendly dates
+- LUGG-314/suitcase #14 - fixed - Decreased scope of destructive selectors
+- LUGG-315/suitcase #13 - fixed - Category “menu” lacks contrast
+- LUGG-318/suitcase #15 - fixed - Iowa State University nameplate doesn’t have alt attribute
+
 Luggage 3.0.0-3.0, 2015-1-13
 Drupal 7.34, 2014-11-19
 --------------------------
