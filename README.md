@@ -2,6 +2,7 @@ Luggage_ISU
 =========
 [![Build Status](https://travis-ci.org/isubit/luggage_isu.svg?branch=master "Build Status")](http://travis-ci.org/isubit/luggage_isu)
 
+Luggage_ISU is a fork of Luggage with additions specifically designed for use at Iowa State University.
 Luggage is a Drupal 7.x platform for building/maintaining academic websites.
 
   - Build Luggage from script or Add/Merge Luggage to your current Drupal 7.x project.
@@ -15,7 +16,7 @@ Luggage is a managed stable release of Drupal 7.x coupled with several features 
 > Luggage is not an install profile nor a distribution. It can be applied to any Drupal 7 project at any time.
 > It can also be removed as simply.
 
-Is Luggage Right For You?
+Is Luggage_ISU Right For You?
 -------------------------
 This is an Iowa State University flavor of [Luggage](https://github.com/isubit/luggage). Perfect for those intending to build and deploy at ISU.
 
@@ -23,14 +24,17 @@ If this is not you, then Luggage is right for you!
 
 Version
 ----
+Development of Luggage_ISU takes place on the 'development' branch in Github. Pull requests should be made against the 'development' branch.
 
-Stable
+Releases take place on the 'master' branch. 
 
-- 2.x.x is currently `master`
+The 2.x.x branch of Luggage is being maintained for security fixes only.
 
-Development
-
-- 2.x.x is currently `development`
+Upgrading from Luggage 2.x.x to 3.x.x
+-------------------------------------
+1. Use git to upgrade your code
+2. Update your git submodules
+3. If you were using PubCookie, run the upgrade script in the scripts directory 
 
 Technology
 -----------
@@ -42,7 +46,7 @@ Luggage uses a number of open source projects to work properly:
 * [Ckeditor][] - HTML text editor designed to simplify web content creation
 * [Flexslider2][] - The best responsive slider. Period.
 * [Apache Solr][] - search platform.
-* [Pubcookie][] - intra-institutional web authentication
+* [Shibboleth][] - authentication
 
 Installation
 --------------
@@ -62,7 +66,7 @@ source ./scripts/build_luggage_isu.sh
 
 The last line of output from the script, if successful, will be a root user one-time login link. Copy and append everything from "/user" and on, to the end of the luggage installation url in a web browser of your choice. Typically, the final link will look something like this:
 ``` 
-http://localhost/luggage_isu/user/reset/1/1409061179/KjbHsr6O7FRaz-__WShbgWuPwKHKrXHy6QGV_AQu02E/login
+http://localhost/luggage/user/reset/1/1409061179/KjbHsr6O7FRaz-__WShbgWuPwKHKrXHy6QGV_AQu02E/login
 ```
 
 You are now logged in as the root user, allowing you to develop using the power of Luggage! Enjoy!
@@ -99,7 +103,7 @@ License
 [Ckeditor]:http://ckeditor.com/
 [Flexslider2]:http://flexslider.woothemes.com/
 [Apache Solr]:http://lucene.apache.org/solr/
-[Pubcookie]:http://www.pubcookie.org/
+[Shibboleth]:https://shibboleth.net/
 [GPLv2]:http://www.gnu.org/licenses/gpl-2.0.html
 [Travis]:https://travis-ci.org/isubit/luggage.svg?branch=master
 [Luggage ISU]:https://github.com/isubit/luggage_isu
