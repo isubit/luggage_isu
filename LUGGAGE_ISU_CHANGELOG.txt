@@ -3,7 +3,7 @@ How to read this changelog:
 The LUGG- prefix refers to JIRA issue numbers; the # prefix refers to Github issue numbers.
 
 The Luggage_ISU version number shows the upstream Luggage version it is based on
-as well as the Luggage_ISU version. For example, Luggage_ISU 3.10-3.1 is based
+as well as the Luggage_ISU version. For example, Luggage_ISU 3.1.0-3.1 is based
 on the upstream Luggage release 3.1.0.
 
 Luggage_ISU 3.1.0-3.1, 2015-2-2
