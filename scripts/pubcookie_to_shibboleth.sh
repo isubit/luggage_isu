@@ -15,5 +15,5 @@
 rm -rf sites/all/modules/luggage/luggage_pubcookie
 git rm -rf sites/all/modules/pubcookie
 rm -rf sites/all/modules/pubcookie
-drush en isushib isushibsiteaccess -y
+drush @self en isushib isushibsiteaccess -y
 git submodule update --init --force

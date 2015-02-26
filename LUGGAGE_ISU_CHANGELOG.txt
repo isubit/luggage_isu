@@ -1,42 +1,56 @@
-Luggage 3.1.0-3.1, 2015-2-2
-Drupal 7.34, 2014-11-19
---------------------------
-- LUGG-279/suitcase #16 - fixed - News items should have dates. Friendly dates
-- LUGG-314/suitcase #14 - fixed - Decreased scope of destructive selectors
-- LUGG-315/suitcase #13 - fixed - Category “menu” lacks contrast
-- LUGG-318/suitcase #15 - fixed - Iowa State University nameplate doesn’t have alt attribute
+How to read this changelog:
 
-Luggage 3.0.0-3.0, 2015-1-13
+The LUGG- prefix refers to JIRA issue numbers; the # prefix refers to Github issue numbers.
+
+The Luggage_ISU version number shows the upstream Luggage version it is based on
+as well as the Luggage_ISU version. For example, Luggage_ISU 3.1.0-3.1 is based
+on the upstream Luggage release 3.1.0.
+
+Luggage_ISU 3.1.1-3.2, 2015-2-25
 Drupal 7.34, 2014-11-19
 --------------------------
-- LUGG-272 - fixed - Shibboleth feature
+- LUGG-377 - Improve LUGGAGE_ISU_CHANGELOG
+- LUGG-378 - Clarify branch methodology in README.md
+
+Luggage_ISU 3.1.0-3.1, 2015-2-2
+Drupal 7.34, 2014-11-19
+--------------------------
+- LUGG-279/suitcase #16 - News items should have friendly dates
+- LUGG-314/suitcase #14 - Decreased scope of destructive selectors
+- LUGG-315/suitcase #13 - Category "menu" lacks contrast
+- LUGG-318/suitcase #15 - Ensure Iowa State University nameplate alt attribute
+
+Luggage_ISU 3.0.0-3.0, 2015-1-13
+Drupal 7.34, 2014-11-19
+--------------------------
+- LUGG-272 - Support Shibboleth authentication
 - Altered scripts/libs/luggage_isu.sh to remove Pubcookie and include Shibboleth
-- LUGG-319 - fixed - remove pubcookie
+- LUGG-319 - Remove pubcookie authentication support
 
-Luggage 2.5.0-2.1, 2014-12-30
+Luggage_ISU 2.5.0-2.1, 2014-12-30
 Drupal 7.34, 2014-11-19
 --------------------------
-- LUGG-124 - fixed - Link to Exchange is changing
-- LUGG-186 - fixed - Long names with hyphens aren't able to wrap
-- LUGG-239/suitcase #8 - fixed - Universal block styling that works for programmatic blocks and views blocks across the suitcase theme. - https://github.com/isubit/suitcase/issues/8
-- LUGG-259/suitcase #6 - fixed - Slider styling needs fixed for default themes - https://github.com/isubit/suitcase/issues/6
-- LUGG-276 - fixed - <sub> and <sup> formatting being stripped out in suitcase css
+- LUGG-124 - Link to Exchange is changing
+- LUGG-186 - Long names with hyphens aren't able to wrap
+- LUGG-239/suitcase #8 - Universal block styling that works for programmatic blocks and views blocks across the suitcase theme
+- LUGG-259/suitcase #6 - Slider styling fixed for default themes - https://github.com/isubit/suitcase/issues/6
+- LUGG-276 - <sub> and <sup> formatting being stripped out in suitcase css
 
-Luggage 2.4.2-2.0, 2014-11-27
+Luggage_ISU 2.4.2-2.0, 2014-11-27
 Drupal 7.34, 2014-11-19
 --------------------------
-Hot fixed Drupal
+Hot-fixed Drupal
 
-Luggage 2.4.1-2.0, 2014-11-09
+Luggage_ISU 2.4.1-2.0, 2014-11-09
 Drupal 7.33, 2014-11-07
 --------------------------
-Hot fixed Drupal
+Hot-fixed Drupal
 
-Luggage 2.4.0-2.0, 2014-10-31
+Luggage_ISU 2.4.0-2.0, 2014-10-31
 Drupal 7.32, 2014-10-15
 --------------------------
-- LUGG-117 - fixed - Need visual differentiation for news titles
-- LUGG-172 - fixed - Suitcase collapsible menu button should not show up if there are no menu items
-- LUGG-221 - fixed - Book module block 'Book Navigation' styling needs work
-- LUGG-225 - fixed - "Pubcookie User Admin" role should have “Administer pub cookie future roles"
-- suitcase #4 - fixed - Indicate unpublished state - https://github.com/isubit/suitcase/issues/4
+- LUGG-117 - Need visual differentiation for news titles
+- LUGG-172 - Suitcase collapsible menu button should not show up if there are no menu items
+- LUGG-221 - Book module block 'Book Navigation' styling needs work
+- LUGG-225 - "Pubcookie User Admin" role should have "Administer pubcookie future roles"
+- suitcase #4 - Indicate unpublished state
