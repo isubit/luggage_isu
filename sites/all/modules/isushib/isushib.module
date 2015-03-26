@@ -262,7 +262,7 @@ function isushib_login_link() {
   
   $options = array(
     'https' => TRUE,
-    'query' => array('target' => $base_secure_url . variable_get('isushib_login_dir', '/shibboleth') . '/pc'),
+    'query' => array('target' => $base_secure_url . '/' . variable_get('isushib_login_dir', 'shibboleth') . '/pc'),
   );
   $url = url($base_root . '/Shibboleth.sso/Login', $options);
 
