@@ -69,6 +69,11 @@ then
   fi
   drush -v sql-query "DROP TABLE pubcookiesiteaccess_roles;" -y $1
   
+  # Migrate permissions
+  drush -v sql-query "UPDATE role SET name = 'shibboleth user admin' WHERE name = 'pubcookie user admin';" -y $1
+  drush -v sql-query "DELETE FROM role_permission WHERE module = 'pubcookiesiteaccess';" -y $1
+  drush -v sql-query "UPDATE role_permission SET rid = (SELECT rid FROM role WHERE name = 'shibboleth user admin') WHERE module = 'isushibsiteaccess';" -y $1
+  
   echo "Completed. Do a git status. Your next step will probably be"
   echo "git commit -m 'Removed pubcookie module'"
   echo
