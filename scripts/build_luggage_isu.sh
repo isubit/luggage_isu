@@ -12,18 +12,14 @@
 # ./scripts/build_luggage_isu.sh
 #
 
-# Inlcude luggage functions for building
+# Include luggage functions for building
 . $(dirname $0)/libs/luggage.sh
-# Inlcude luggage_isu functions for building
+# Include luggage_isu functions for building
 . $(dirname $0)/libs/luggage_isu.sh
 
 init
 install_site
-
 install_luggage_isu_suitcase
-
 install_luggage_features
-
 install_luggage_isu_features
-
 finish
