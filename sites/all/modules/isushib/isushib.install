@@ -1,0 +1,46 @@
+<?php
+
+/**
+ * @file
+ * Installation file for shibboleth module.
+ */
+
+function isushib_uninstall() {
+  variable_del('isushib_login_dir');
+  variable_del('isushib_success_url');
+}
+
+/**
+ * Rename block delta from shibboleth_login to isushib_login.
+ */
+function isushib_update_7100() {
+  $result = db_query("SELECT * FROM {block} b WHERE b.module = :module AND b.delta = :delta", array(':module' => 'isushib', ':delta' => 'shibboleth_login'));
+  $bids = array();
+  foreach ($result as $block) {
+    $bids[] = $block->bid;   
+  
+    if ($block->region != '-1') {
+      db_update('block')
+        ->fields(array(
+        'status' => $block->status,
+        'weight' => $block->weight,
+        'region' => $block->region,
+        'custom' => $block->custom,
+        'visibility' => $block->visibility,
+        'pages' => $block->pages,
+        'title' => $block->title,
+        'cache' => $block->cache,
+        ))
+        ->condition('module', 'isushib')
+        ->condition('delta', 'isushib_login')
+        ->condition('theme', $block->theme)
+        ->execute();
+    }
+  }
+  
+  foreach ($bids as $bid) {
+    db_delete('block')
+      ->condition('bid', $bid)
+      ->execute();
+  }
+}
