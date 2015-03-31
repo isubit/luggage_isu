@@ -105,11 +105,6 @@ function isushibsiteaccess_is_allowed($name) {
  * @return array of rid => role name pairs
  */
 function isushibsiteaccess_get_preassigned_roles_for_user($name) {
-  if (!variable_get('shibboleth_id_is_email', 1)) {
-    watchdog('isushibsiteaccess', 'shibboleth_id_is_email must be checked on shibboleth configuration page for isushibsiteaccess role assignment to future users to work');
-    return;
-  }
-  
   $fuid = isushibsiteaccess_get_fuid($name);
   $assigned_roles = isushibsiteaccess_assigned_roles($fuid);
   return $assigned_roles; 

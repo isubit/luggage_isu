@@ -9,11 +9,6 @@
  * The shibboleth site access settings page.
  */
 function isushibsiteaccess_settings() {
-  if (!variable_get('shibboleth_id_is_email', 1)) {
-    drupal_set_message(t('The ID/Email equivalency feature of the shibboleth module must be turned on for Shibboleth Site Access to work. Please confirm the shibboleth settings by clicking the Submit button.'), 'error');
-    drupal_goto('admin/config/people/shibboleth');
-  }
-
   // Table of users who are already allowed to access the site and have accounts
   // along with future users who do not have accounts but may have roles 
   // preassigned.
