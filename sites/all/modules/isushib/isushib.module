@@ -36,7 +36,6 @@ function isushib_menu() {
     'file' => 'isushib.admin.inc',
   );
 
-
   return $items;
 }
 
@@ -148,8 +147,8 @@ function isushib_page() {
  */
 function isushib_user_presave(&$edit, $account, $category) {
   global $_shibboleth_user;
-  // Set the mail column of the user table (which is typically blank for users with external auth) only if
-  // shibboleth_user@shibboleth_domain is also an email address.
+  // Set the mail column of the user table (which is typically blank for users
+  // with external auth).
   if ($account->is_new && isset($_shibboleth_user)) {
     $edit['mail'] = "$_shibboleth_user@iastate.edu";
     if (module_exists('isushibsiteaccess')) {
@@ -207,7 +206,7 @@ function isushib_entity_presave($entity, $type) {
  * Display the shibboleth "Log in" link.
  */
 function isushib_block_info() {
-  $blocks['shibboleth_login'] = array(
+  $blocks['isushib_login'] = array(
     'info' => t('Shibboleth Login'),
   );
   return $blocks;
@@ -215,7 +214,7 @@ function isushib_block_info() {
 
 function isushib_block_view($delta) {
   switch ($delta) {
-    case 'shibboleth_login':
+    case 'isushib_login':
       global $user;
 
       $block = array();
@@ -232,7 +231,7 @@ function isushib_block_view($delta) {
  */
 function isushib_theme() {
   return array(
-    'shibboleth_login' => array(
+    'isushib_login' => array(
       'arguments' => array(),
     ),
   );
@@ -243,10 +242,10 @@ function isushib_theme() {
  */
 function theme_isushib_login() {
   if (variable_get('isushib_success_url', '')) {
-    return l(t('Log in'), shibboleth_login_link());
+    return l(t('Log in'), isushib_login_link());
   }
   else {
-    return l(t('Log in'), shibboleth_login_link(), array('query' => array('destination' => drupal_get_path_alias(current_path()))));
+    return l(t('Log in'), isushib_login_link(), array('query' => array('destination' => drupal_get_path_alias(current_path()))));
   }
 }
 
