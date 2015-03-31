@@ -68,31 +68,3 @@ function isushibsiteaccess_schema() {
   );
   return $schema;
 }
-
-/**
- * Change from storing usernames as a flat textarea to database records.
- */
-function isushibsiteaccess_update_7200() {
-  if (!db_table_exists('isushibsiteaccess_users')) {
-    $schema = drupal_get_schema_unprocessed('isushibsiteaccess', 'isushibsiteaccess_users');
-    db_create_table('isushibsiteaccess_users', $schema);
-  }  
-  if (!db_table_exists('isushibsiteaccess_roles')) {
-    $schema = drupal_get_schema_unprocessed('isushibsiteaccess', 'isushibsiteaccess_roles');
-    db_create_table('isushibsiteaccess_roles', $schema);
-  }
-
-  $isushibsiteaccess_usernames = variable_get('isushibsiteaccess_usernames', '');
-  if ($isushibsiteaccess_usernames != '') {
-    foreach ($isushibsiteaccess_usernames as $username) {
-      // Add record.
-      watchdog('isushibsiteaccess', 'creating record for %username', array('%username' => $username));
-      db_insert('isushibsiteaccess_users')
-        ->fields(array(
-          'name' => $username,
-        ))
-        ->execute();    
-    }
-  }
-  variable_del('isushibsiteaccess_usernames');
-}
