@@ -39,16 +39,16 @@ then
   rm -rf sites/all/modules/pubcookie
   
   # Enable isushib and isushibsiteaccess modules
-  drush en isushib isushibsiteaccess -y $1
+  drush --simulate=0 en isushib isushibsiteaccess -y $1
   git submodule update --init --force
   
   # Clean up any lingering pubcookie variables
-  drush vdel pubcookie_domain -y $1
-  drush vdel pubcookie_id_is_email -y $1
-  drush vdel pubcookie_ldap_basedn -y $1 
-  drush vdel pubcookie_ldap_searchfield -y $1
-  drush vdel pubcookie_login_dir -y $1
-  drush vdel pubcookie_success_url -y $1
+  drush --simulate=0 vdel pubcookie_domain -y $1
+  drush --simulate=0 vdel pubcookie_id_is_email -y $1
+  drush --simulate=0 vdel pubcookie_ldap_basedn -y $1 
+  drush --simulate=0 vdel pubcookie_ldap_searchfield -y $1
+  drush --simulate=0 vdel pubcookie_login_dir -y $1
+  drush --simulate=0 vdel pubcookie_success_url -y $1
   
   # Move pubcookie data into new tables
   pubcookiesiteaccess_users=$(drush --simulate=0 sql-query "SELECT * FROM pubcookiesiteaccess_users LIMIT 1" $1)
