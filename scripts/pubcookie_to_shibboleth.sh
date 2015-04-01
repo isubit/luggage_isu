@@ -39,40 +39,40 @@ then
   rm -rf sites/all/modules/pubcookie
   
   # Enable isushib and isushibsiteaccess modules
-  drush en isushib isushibsiteaccess -y $1
+  drush --simulate=0 en isushib isushibsiteaccess -y $1
   git submodule update --init --force
   
   # Clean up any lingering pubcookie variables
-  drush vdel pubcookie_domain -y $1
-  drush vdel pubcookie_id_is_email -y $1
-  drush vdel pubcookie_ldap_basedn -y $1 
-  drush vdel pubcookie_ldap_searchfield -y $1
-  drush vdel pubcookie_login_dir -y $1
-  drush vdel pubcookie_success_url -y $1
+  drush --simulate=0 vdel pubcookie_domain -y $1
+  drush --simulate=0 vdel pubcookie_id_is_email -y $1
+  drush --simulate=0 vdel pubcookie_ldap_basedn -y $1 
+  drush --simulate=0 vdel pubcookie_ldap_searchfield -y $1
+  drush --simulate=0 vdel pubcookie_login_dir -y $1
+  drush --simulate=0 vdel pubcookie_success_url -y $1
   
   # Move pubcookie data into new tables
-  pubcookiesiteaccess_users=$(drush sql-query "SELECT * FROM pubcookiesiteaccess_users LIMIT 1")
+  pubcookiesiteaccess_users=$(drush --simulate=0 sql-query "SELECT * FROM pubcookiesiteaccess_users LIMIT 1" $1)
   if [ "$pubcookiesiteaccess_users" == "" ]; then
     echo "Could not SELECT pubcookiesiteaccess_users (there may not have been any users defined); skipping import"
   else
     echo "Importing"
-    drush -v sql-query "INSERT isushibsiteaccess_users SELECT * FROM pubcookiesiteaccess_users;" -y $1
+    drush -v --simulate=0 sql-query "INSERT isushibsiteaccess_users SELECT * FROM pubcookiesiteaccess_users;" -y $1
   fi
-  drush -v sql-query "DROP TABLE pubcookiesiteaccess_users;" -y $1
+  drush -v --simulate=0 sql-query "DROP TABLE pubcookiesiteaccess_users;" -y $1
   
-  pubcookiesiteaccess_roles=$(drush sql-query "SELECT * FROM pubcookiesiteaccess_roles LIMIT 1")
+  pubcookiesiteaccess_roles=$(drush --simulate=0 sql-query "SELECT * FROM pubcookiesiteaccess_roles LIMIT 1" $1)
   if [ "$pubcookiesiteaccess_roles" == "" ]; then
     echo "Could not SELECT pubcookiesiteaccess_roles (there may not have been any roles defined); skipping import"
   else
     echo "importing roles"
-    drush -v sql-query "INSERT isushibsiteaccess_roles SELECT * FROM pubcookiesiteaccess_roles;" -y $1
+    drush -v --simulate=0 sql-query "INSERT isushibsiteaccess_roles SELECT * FROM pubcookiesiteaccess_roles;" -y $1
   fi
-  drush -v sql-query "DROP TABLE pubcookiesiteaccess_roles;" -y $1
+  drush -v --simulate=0 sql-query "DROP TABLE pubcookiesiteaccess_roles;" -y $1
   
   # Migrate permissions
-  drush -v sql-query "UPDATE role SET name = 'shibboleth user admin' WHERE name = 'pubcookie user admin';" -y $1
-  drush -v sql-query "DELETE FROM role_permission WHERE module = 'pubcookiesiteaccess';" -y $1
-  drush -v sql-query "UPDATE role_permission SET rid = (SELECT rid FROM role WHERE name = 'shibboleth user admin') WHERE module = 'isushibsiteaccess';" -y $1
+  drush -v --simulate=0 sql-query "UPDATE role SET name = 'shibboleth user admin' WHERE name = 'pubcookie user admin';" -y $1
+  drush -v --simulate=0 sql-query "DELETE FROM role_permission WHERE module = 'pubcookiesiteaccess';" -y $1
+  drush -v --simulate=0 sql-query "UPDATE role_permission SET rid = (SELECT rid FROM role WHERE name = 'shibboleth user admin') WHERE module = 'isushibsiteaccess';" -y $1
   
   echo "Completed. Do a git status. Your next step will probably be"
   echo "git commit -m 'Removed pubcookie module'"
