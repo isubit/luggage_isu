@@ -51,7 +51,7 @@ then
   drush vdel pubcookie_success_url -y $1
   
   # Move pubcookie data into new tables
-  pubcookiesiteaccess_users=$(drush sql-query "SELECT * FROM pubcookiesiteaccess_users LIMIT 1")
+  pubcookiesiteaccess_users=$(drush sql-query "SELECT * FROM pubcookiesiteaccess_users LIMIT 1" $1)
   if [ "$pubcookiesiteaccess_users" == "" ]; then
     echo "Could not SELECT pubcookiesiteaccess_users (there may not have been any users defined); skipping import"
   else
@@ -60,7 +60,7 @@ then
   fi
   drush -v sql-query "DROP TABLE pubcookiesiteaccess_users;" -y $1
   
-  pubcookiesiteaccess_roles=$(drush sql-query "SELECT * FROM pubcookiesiteaccess_roles LIMIT 1")
+  pubcookiesiteaccess_roles=$(drush sql-query "SELECT * FROM pubcookiesiteaccess_roles LIMIT 1" $1)
   if [ "$pubcookiesiteaccess_roles" == "" ]; then
     echo "Could not SELECT pubcookiesiteaccess_roles (there may not have been any roles defined); skipping import"
   else
