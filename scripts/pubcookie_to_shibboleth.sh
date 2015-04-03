@@ -47,8 +47,12 @@ then
   drush --simulate=0 vdel pubcookie_id_is_email -y $1
   drush --simulate=0 vdel pubcookie_ldap_basedn -y $1 
   drush --simulate=0 vdel pubcookie_ldap_searchfield -y $1
+  drush --simulate=0 vdel pubcookie_ldap_server -y $1
+  drush --simulate=0 vdel pubcookie_ldap_usernamefield -y $1
   drush --simulate=0 vdel pubcookie_login_dir -y $1
   drush --simulate=0 vdel pubcookie_success_url -y $1
+  drush --simulate=0 vdel pubcookiesiteaccess_assignable_roles -y $1
+  
   
   # Move pubcookie data into new tables
   pubcookiesiteaccess_users=$(drush --simulate=0 sql-query "SELECT * FROM pubcookiesiteaccess_users LIMIT 1" $1)
