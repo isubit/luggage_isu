@@ -41,7 +41,18 @@ then
   # Enable isushib and isushibsiteaccess modules
   drush --simulate=0 en isushib isushibsiteaccess -y $1
   git submodule update --init --force
-   
+  
+  # Clean up any lingering pubcookie variables
+  drush --simulate=0 vdel pubcookie_domain -y $1
+  drush --simulate=0 vdel pubcookie_id_is_email -y $1
+  drush --simulate=0 vdel pubcookie_ldap_basedn -y $1 
+  drush --simulate=0 vdel pubcookie_ldap_searchfield -y $1
+  drush --simulate=0 vdel pubcookie_ldap_server -y $1
+  drush --simulate=0 vdel pubcookie_ldap_usernamefield -y $1
+  drush --simulate=0 vdel pubcookie_login_dir -y $1
+  drush --simulate=0 vdel pubcookie_success_url -y $1
+  drush --simulate=0 vdel pubcookiesiteaccess_assignable_roles -y $1
+  
   
   # Move pubcookie data into new tables
   pubcookiesiteaccess_users=$(drush --simulate=0 sql-query "SELECT * FROM pubcookiesiteaccess_users LIMIT 1" $1)
@@ -66,26 +77,6 @@ then
   drush -v --simulate=0 sql-query "UPDATE role SET name = 'shibboleth user admin' WHERE name = 'pubcookie user admin';" -y $1
   drush -v --simulate=0 sql-query "DELETE FROM role_permission WHERE module = 'pubcookiesiteaccess';" -y $1
   drush -v --simulate=0 sql-query "UPDATE role_permission SET rid = (SELECT rid FROM role WHERE name = 'shibboleth user admin') WHERE module = 'isushibsiteaccess';" -y $1
-  
-  # Migrate assignable roles
-  assignableroles=$(drush --simulate=0 sql-query "SELECT name FROM variable WHERE name = 'isushibsiteaccess_assignable_roles'" -y $1)
-  if [ "$assignableroles" == "" ]; then
-    echo "migrating assignable roles"
-    drush -v --simulate=0 sql-query "UPDATE variable SET name = 'isushibsiteaccess_assignable_roles' WHERE name = 'pubcookiesiteaccess_assignable_roles' LIMIT 1;" -y $1
-  fi
-  
-  # Clean up any lingering pubcookie variables
-  drush --simulate=0 vdel pubcookie_domain -y $1
-  drush --simulate=0 vdel pubcookie_id_is_email -y $1
-  drush --simulate=0 vdel pubcookie_ldap_basedn -y $1 
-  drush --simulate=0 vdel pubcookie_ldap_searchfield -y $1
-  drush --simulate=0 vdel pubcookie_ldap_server -y $1
-  drush --simulate=0 vdel pubcookie_ldap_usernamefield -y $1
-  drush --simulate=0 vdel pubcookie_login_dir -y $1
-  drush --simulate=0 vdel pubcookie_success_url -y $1
-  
-  # clear cache for good measure
-  drush --simulate=0 cc all $1
   
   echo "Completed. Do a git status. Your next step will probably be"
   echo "git commit -m 'Removed pubcookie module'"
