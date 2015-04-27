@@ -67,3 +67,9 @@ url=git@github.com:isubit/luggage_placeholder.git
 [submodule "sites/all/modules/luggage/suitcase_config"]
 	path = sites/all/modules/luggage/suitcase_config
 	url = git@github.com:isubit/suitcase_config.git
+[submodule "sites/all/modules/isushib"]
+	path = sites/all/modules/isushib
+	url = git@github.com:isubit/isushib.git
+[submodule "sites/all/modules/luggage/luggage_isushib"]
+	path = sites/all/modules/luggage/luggage_isushib
+	url = git@github.com:isubit/luggage_isushib.git
