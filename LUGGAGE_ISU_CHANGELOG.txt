@@ -9,6 +9,7 @@ on the upstream Luggage release 3.1.0.
 Luggage_ISU 3.1.2-3.3, 2015-04-27
 Drupal 7.35, 2015-03-18
 -------------------------
+- LUGG-352 - Curly quotes in READMEs
 - LUGG-406 - Default value for isushib_login_dir is incorrect
 - LUGG-404 - Update luggage_isu.sh for isushib and remove pubcookie
 - LUGG-416 - Make isushib a submodule
