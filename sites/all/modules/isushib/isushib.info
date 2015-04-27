@@ -1,9 +1,0 @@
-name = Shibboleth
-description = Single-signon to Drupal via a Shibboleth server.
-package = External authentication
-core = 7.x
-configure = admin/config/people/isushib
-version = "7.x-1.1"
-project = "isushib"
-datestamp = "1400523228"
-
