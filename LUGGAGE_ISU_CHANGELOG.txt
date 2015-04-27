@@ -6,6 +6,20 @@ The Luggage_ISU version number shows the upstream Luggage version it is based on
 as well as the Luggage_ISU version. For example, Luggage_ISU 3.1.0-3.1 is based
 on the upstream Luggage release 3.1.0.
 
+Luggage_ISU 3.1.2-3.3, 2015-04-27
+Drupal 7.35, 2015-03-18
+-------------------------
+- LUGG-352 - Curly quotes in READMEs
+- LUGG-385 - Update Shibboleth site access permissions
+- LUGG-398 - Capture 'shibboleth user admin' role in luggage_isushib module
+- LUGG-399 - Migrate data in pubcookie_to_shibboleth script
+- LUGG-406 - Default value for isushib_login_dir is incorrect
+- LUGG-404 - Update luggage_isu.sh for isushib and remove pubcookie
+- LUGG-413/luggage_isu #8 - pubcookie_to_shibboleth.sh fails to do DB updates when run on live
+- LUGG-414/luggage_isu #9 - pubcookie_to_shibboleth.sh leaves some variables
+- LUGG-416 - Make isushib a submodule
+- LUGG-419/luggage_isu #11 - pubcookie_to_shibboleth.sh doesn't migrate pubcookiesiteaccess_assignable_roles
+
 Luggage_ISU 3.1.2-3.2, 2015-03-19
 Drupal 7.35, 2015-03-18
 -------------------------
