@@ -6,6 +6,11 @@ The Luggage_ISU version number shows the upstream Luggage version it is based on
 as well as the Luggage_ISU version. For example, Luggage_ISU 3.1.0-3.1 is based
 on the upstream Luggage release 3.1.0.
 
+Luggage 3.2.0-35, 2015-07-01
+Drupal 7.38, 2015-06-17
+-------------------------
+- LUGG-499 - Shibboleth user admin should have "administer shib future roles"
+
 Luggage_ISU 3.1.3-3.4, 2015-06-26
 Drupal 7.38, 2015-03-18
 -------------------------
