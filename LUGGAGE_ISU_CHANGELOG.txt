@@ -11,6 +11,7 @@ Drupal 7.38, 2015-06-17
 -------------------------
 Merged with upstream Luggage 3.2.2
 LUGG-346 - Fixed different shades of grey on lists
+LUGG-420 - Fixed panels styling for different configurations
 LUGG-435 - Field labels should be bold when help text present
 LUGG-531 - Add LUGGAGE_ISU_VERSION.php
 
