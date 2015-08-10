@@ -10,6 +10,7 @@ Luggage 3.2.2-3.6, 2015-08-10
 Drupal 7.38, 2015-06-17
 -------------------------
 Merged with upstream Luggage 3.2.2
+LUGG-435 - Field labels should be bold when help text present
 LUGG-531 - Add LUGGAGE_ISU_VERSION.php
 
 Luggage 3.2.1-3.5, 2015-07-09
