@@ -6,6 +6,11 @@ The Luggage_ISU version number shows the upstream Luggage version it is based on
 as well as the Luggage_ISU version. For example, Luggage_ISU 3.1.0-3.1 is based
 on the upstream Luggage release 3.1.0.
 
+Luggage_ISU 3.3.0-4.2, 2016-01-15
+Drupal 7.41, 2015-10-21
+-------------------------
+- LUGG-555 - Fixed numbered bulleted list only showing 1 digit
+
 Luggage_ISU 3.2.5-4.1, 2015-10-21
 Drupal 7.41, 2015-10-21
 -------------------------
