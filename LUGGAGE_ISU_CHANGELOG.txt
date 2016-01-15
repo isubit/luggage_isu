@@ -10,6 +10,7 @@ Luggage_ISU 3.3.0-4.2, 2016-01-15
 Drupal 7.41, 2015-10-21
 -------------------------
 - LUGG-555 - Fixed numbered bulleted list only showing 1 digit
+- LUGG-613 - Update references of ISUITC to ISUBIT
 
 Luggage_ISU 3.2.5-4.1, 2015-10-21
 Drupal 7.41, 2015-10-21
