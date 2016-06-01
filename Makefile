@@ -1,8 +1,11 @@
 tugboat-init:
-	/etc/drush/scripts/tugboat/init.sh
+	curl -O http://code.ent.iastate.edu/tugboat/tugboat-init.sh
+	./tugboat-init.sh
 
 tugboat-update:
-	/etc/drush/scripts/tugboat/update.sh
+	curl -O http://code.ent.iastate.edu/tugboat/tugboat-update.sh
+	./tugboat-update.sh
 
 tugboat-build:
-	/etc/drush/scripts/tugboat/build.sh
+	curl -O http://code.ent.iastate.edu/tugboat/tugboat-build.sh
+	./tugboat-build.sh
