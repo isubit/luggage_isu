@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Assumptions:
 # ===========
@@ -14,7 +14,15 @@
 ALIAS="@self"
 
 # Ensure we are at the root of a Drupal site.
-DRUPALROOT=$(drush site-alias $ALIAS --component=root)
+DRUSHVERSION=$(drush --version --pipe)
+
+if [[ $DRUSHVERSION == "5."* ]]; then
+  DRUPALROOT=$(drush site-alias $ALIAS --component=root)
+else
+  # Drush 6, 7, 8 all support the following syntax.
+  DRUPALROOT=$(drush site-alias $ALIAS --format=csv --fields=root --field-labels=0)
+fi
+
 DIRECTORY=$(pwd)
 
 # Get name of directory we are currently in
@@ -28,6 +36,10 @@ init() {
     fi
 
     echo "Proceeding with site name -> " $BASENAME
+    
+    if [ -z "$DBHOST"]; then
+      DBHOST=localhost
+    fi
 
     if [ -z "$DBCREDS" ]; then
         printf "DB username: "
@@ -50,7 +62,7 @@ init() {
 install_site() {
     # Install luggage, all its features and all its dependencies - This should be factored out as a separate function
     # Install Drupal 7 using the minimal profile.
-    drush $ALIAS si minimal -y --db-url=mysql://$DBCREDENTIALS@localhost/$BASENAME --site-name=$BASENAME --account-name=adminn install_configure_form.update_status_module='array(FALSE,FALSE)'
+    drush $ALIAS si minimal -y --db-url=mysql://$DBCREDENTIALS@$DBHOST/$BASENAME --site-name=$BASENAME --account-name=adminn install_configure_form.update_status_module='array(FALSE,FALSE)'
 }
 
 install_luggage_features() {
