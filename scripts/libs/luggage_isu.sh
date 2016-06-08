@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Assumptions:
 # ===========
@@ -11,17 +11,16 @@
 # ./scripts/build_luggage_isu.sh
 #
 
-ALIAS="@self"
 
 install_luggage_isu_suitcase() {
   # Install Theme - Suitcase
-  drush $ALIAS en -y suitcase
-  drush $ALIAS vset theme_default suitcase
+  drush en -y suitcase
+  drush vset theme_default suitcase
 }
 
 install_luggage_isu_features() {
   # Install luggage_isu features
-  drush -v $ALIAS en -y luggage_people_isu
-  drush -v $ALIAS en -y suitcase_config
-  drush -v $ALIAS en -y isushib isushibsiteaccess
+  drush en -y luggage_people_isu
+  drush en -y suitcase_config
+  drush en -y isushib isushibsiteaccess
 }
