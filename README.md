@@ -20,7 +20,7 @@ The 2.x.x branch of Luggage_ISU is no longer supported.
 Installation
 --------------
 
-Below is the brief run-down on how to install Luggage_isu. The full installation documentation can be found [here](http://luggagedocs.info/installing-luggage-scratch).
+Below is the brief run-down on how to install Luggage_ISU. The full installation documentation can be found [here](http://luggagedocs.info/installing-luggage-scratch).
 
 #####Assumptions:
 * Drush is installed
