@@ -10,6 +10,11 @@ Luggage_ISU 3.4.0-4.5, 2016-06-22
 Drupal 7.44, 2016-06-15
 -------------------------
 Merged with upstream Luggage 3.4.0
+- LUGG-509 - Styling added to <figure> and <figcaption>
+- LUGG-519 - Images in content resize for mobile content
+- LUGG-525 - Moved suitcase styling from luggage_people to suitcase
+- LUGG-609 - Styling added to new comment marker
+- LUGG-631 - Opening a link in a new tab with iOS now works
 - LUGG-722 - isushib no longer caches failed log in attempts
 
 Luggage_ISU 3.3.2-4.4, 2016-06-15
