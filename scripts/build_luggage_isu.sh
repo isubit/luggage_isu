@@ -11,6 +11,9 @@
 # cd luggage_isu
 # ./scripts/build_luggage_isu.sh
 #
+# To build with Suitcase Classic theme, use
+# ./scripts/build_luggage_isu.sh -t suitcase
+#
 
 default_theme=suitcase_interim
 
