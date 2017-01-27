@@ -76,3 +76,9 @@ url=git@github.com:isubit/luggage_placeholder.git
 [submodule "sites/all/modules/luggage/luggage_video"]
 	path = sites/all/modules/luggage/luggage_video
 	url = git@github.com:isubit/luggage_video.git
+[submodule "sites/all/themes/suitcase_interim"]
+	path = sites/all/themes/suitcase_interim
+	url = git@github.com:isubit/suitcase_interim.git
+[submodule "sites/all/modules/luggage/suitcase_interim_frontpanel"]
+	path = sites/all/modules/luggage/suitcase_interim_frontpanel
+	url = git@github.com:isubit/suitcase_interim_frontpanel.git

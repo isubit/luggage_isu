@@ -12,6 +12,26 @@
 # ./scripts/build_luggage_isu.sh
 #
 
+default_theme=suitcase_interim
+
+while getopts ":t:" opt; do
+  case $opt in
+    t)
+      if [ "$OPTARG" == "suitcase" ]; then
+        default_theme=suitcase
+      fi
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      exit 1
+      ;;
+    :)
+      echo "Option -$OPTARG requires an argument, e.g., -t suitcase" >&2
+      exit 1
+      ;;
+  esac
+done
+
 # Include luggage functions for building
 . $(dirname $0)/libs/luggage.sh
 # Include luggage_isu functions for building
@@ -19,7 +39,7 @@
 
 init
 install_site
-install_luggage_isu_suitcase
+install_luggage_isu_${default_theme}
 install_luggage_features
 install_luggage_isu_features
 finish

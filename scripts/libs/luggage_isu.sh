@@ -16,11 +16,18 @@ install_luggage_isu_suitcase() {
   # Install Theme - Suitcase
   drush en -y suitcase
   drush vset theme_default suitcase
+  drush en -y suitcase_config
+}
+
+install_luggage_isu_suitcase_interim() {
+  # Install Theme - Suitcase Interim
+  drush en -y suitcase_interim
+  drush vset theme_default suitcase_interim
+  drush en -y suitcase_interim_frontpanel
 }
 
 install_luggage_isu_features() {
   # Install luggage_isu features
   drush en -y luggage_people_isu
-  drush en -y suitcase_config
   drush en -y isushib isushibsiteaccess
 }
