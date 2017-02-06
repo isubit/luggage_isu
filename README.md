@@ -13,7 +13,7 @@ Version
 ----
 Development of Luggage_ISU takes place on the 'development' branch in Github. Pull requests should be made against the 'development' branch.
 
-Releases take place on the 'master' branch. 
+Releases take place on the 'master' branch.
 
 The 2.x.x branch of Luggage_ISU is no longer supported.
 
@@ -34,7 +34,7 @@ bash scripts/build_luggage_isu.sh
 ```
 
 The last line of output from the script, if successful, will be a root user one-time login link. Copy and append everything from "/user" and on, to the end of the luggage installation url in a web browser of your choice. Typically, the final link will look something like this:
-``` 
+```
 http://localhost/luggage/user/reset/1/1409061179/KjbHsr6O7FRaz-__WShbgWuPwKHKrXHy6QGV_AQu02E/login
 ```
 
@@ -58,6 +58,13 @@ Join us on IRC FreeNode @ #luggage
 Travis-CI - https://travis-ci.org/isubit/luggage_isu
 * Reports into IRC FreeNode @  ##luggage
 
+Thanks
+----
+Thanks to the following companies for providing sponsorship through services and products used to build and improve Luggage:
+- [BrowserStack](https://www.browserstack.com) for interface testing across desktop and mobile browsers.
+- [JetBrains](https://www.jetbrains.com/phpstorm/) for use of the PHPStorm IDE for development.
+- [GitHub](https://github.com) for collaboration and code management tools.
+- [Travis-CI](https://travis-ci.org/) for continuous automated testing.
 
 License
 ----
