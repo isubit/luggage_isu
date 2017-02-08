@@ -6,6 +6,21 @@ The Luggage_ISU version number shows the upstream Luggage version it is based on
 as well as the Luggage_ISU version. For example, Luggage_ISU 3.1.0-3.1 is based
 on the upstream Luggage release 3.1.0.
 
+Luggage_ISU 3.5.0-4.8, 2016-02-06
+Drupal 7.54, 2016-02-01
+-------------------------
+Merged with upstream Luggage 3.5.0
+- #2 - Show blocked status on "Change who may access this site"
+- LUGG-344 - Added basic print styling (Suitcase Classic)
+- LUGG-621 - Improved Panels vertical spacing
+- LUGG-678 - Improved Panels theming (Suitcase Classic)
+- LUGG-844 - Fixed improper bold link styling (Suitcase Classic)
+- LUGG-854 - Added styles for fieldsets (Suitcase Classic)
+- LUGG-866 - Added panels layout with 2 rows
+- LUGG-621 - Added some default styles to frontpanel
+- LUGG-839 - Improved suitcase_config uninstall to remove variables.
+- LUGG-937 - Added suitcase_interim 1.0.2 theme and made default on initial build.
+
 Luggage_ISU 3.4.2-4.7, 2016-11-16
 Drupal 7.52, 2016-11-16
 -------------------------
