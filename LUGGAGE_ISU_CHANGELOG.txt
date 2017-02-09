@@ -19,7 +19,7 @@ Merged with upstream Luggage 3.5.0
 - LUGG-866 - Added panels layout with two rows
 - LUGG-621 - Added some default styles to frontpanel
 - LUGG-839 - Improved suitcase_config uninstall to remove variables
-- LUGG-937 - Added suitcase_interim 1.0.2 theme and made it default on initial build
+- LUGG-937 - Added suitcase_interim 1.0.3 theme and made it default on initial build
 
 Luggage_ISU 3.4.2-4.7, 2016-11-16
 Drupal 7.52, 2016-11-16
