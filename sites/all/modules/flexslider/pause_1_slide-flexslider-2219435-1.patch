@@ -1,0 +1,16 @@
+diff --git a/assets/js/flexslider.load.js b/assets/js/flexslider.load.js
+index 8423c6f..5c2c2ae 100755
+--- a/assets/js/flexslider.load.js
++++ b/assets/js/flexslider.load.js
+@@ -36,6 +36,11 @@
+       // @todo load the css path from the settings
+       $(this).find('ul.slides > li > *').removeAttr('width').removeAttr('height');
+ 
++      if ($(optionset.selector, this).length < 2) {
++        // Remove pause button if slides are less then two.
++        optionset.pausePlay = false;
++      }
++
+       if (optionset) {
+         // Add events that developers can use to interact.
+         $(this).flexslider($.extend(optionset, {
