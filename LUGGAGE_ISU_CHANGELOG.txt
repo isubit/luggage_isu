@@ -6,6 +6,15 @@ The Luggage_ISU version number shows the upstream Luggage version it is based on
 as well as the Luggage_ISU version. For example, Luggage_ISU 3.5.0-5.0 is based
 on the upstream Luggage release 3.5.0.
 
+Luggage_ISU 3.5.3-5.3, 2017-10-03
+Drupal 7.56, 2016-06-21
+-------------------------
+Merged with upstream Luggage 3.5.3
+suitcase_interim 1.1.3 theme
+suitcase 2.5 theme
+- LUGG-899 - Deleting a role now removes it from assignable roles
+- INTERIM-136 - suitcase_interim_frontpanel now enforces panels requirement
+
 Luggage_ISU 3.5.2-5.2, 2017-06-21
 Drupal 7.56, 2017-06-21
 -------------------------
@@ -17,7 +26,7 @@ Drupal 7.54, 2016-02-01
 Merged with upstream Luggage 3.5.1
 suitcase_interim 1.0.5 theme
 suitcase 2.4 theme
-LUGG-951 - Fixed issue where 5 digit zip code added an extra - at the end
+- LUGG-951 - Fixed issue where 5 digit zip code added an extra - at the end
 
 Luggage_ISU 3.5.0-5.0, 2016-02-08
 Drupal 7.54, 2016-02-01
