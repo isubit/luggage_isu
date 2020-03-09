@@ -22,7 +22,7 @@ Installation
 
 Below is the brief run-down on how to install Luggage_ISU. The full installation documentation can be found [here](http://luggagedocs.info/installing-luggage-scratch).
 
-#####Assumptions:
+##### Assumptions:
 * Drush is installed
 * Git is installed
 
