@@ -60,7 +60,7 @@ url=git@github.com:isubit/luggage_placeholder.git
 	url = git@github.com:isubit/luggage_people_isu.git
 [submodule "sites/all/themes/omega"]
 	path = sites/all/themes/omega
-	url = http://git.drupal.org/project/omega.git
+	url = https://git.drupalcode.org/project/omega.git
 [submodule "sites/all/themes/suitcase"]
 	path = sites/all/themes/suitcase
 	url = git@github.com:isubit/suitcase.git
